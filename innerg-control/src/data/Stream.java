@@ -4,21 +4,32 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 import gnu.io.CommPortIdentifier;
 import gnu.io.NoSuchPortException;
 import gnu.io.SerialPort;
-import gui.Window;
+import gui.GraphPanel;
 
 
 public class Stream {
 	
 	public final String port = "/dev/rfcomm0";
-	private Window w;
 	private BufferedReader in;
 	
-	public Stream(Window w){
-		this.w = w;
+	volatile private Float[] acc,ori;
+	private GraphPanel graph;
+
+	public void setAcc(Float[] values){
+		acc = values;
+	}
+	
+	public void setOri(Float[] values){
+		ori = values;
+	}
+	
+	public Stream(GraphPanel g){
+		graph = g;
 	}
 
 	public String start(){
@@ -37,9 +48,11 @@ public class Stream {
 			return "";
 			
 		} catch (NoSuchPortException e) {
+			e.printStackTrace();
 			return "Impossible to communicate with the serial port";
 		}  
 		catch (Exception e) {
+			e.printStackTrace();
 			return e.getMessage();
 		} 
 		 		
@@ -60,9 +73,17 @@ public class Stream {
 				
 				for(int i=0;i<6;i++){
 					val[i]=Float.valueOf(fig[i]);
-					System.out.println(i+" "+val[i]);
 				}
-				w.newData(val);	
+				
+				setAcc (Arrays.copyOfRange(val, 0, 2));
+				setOri (Arrays.copyOfRange(val, 3, 5));	
+				
+				graph.repaint();
+				
 			}
+	}
+
+	public Float[] getOri() {
+		return ori;
 	}
 }

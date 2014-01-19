@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -15,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import data.Stream;
+import data.StreamThread;
 
 
 public class Window extends JFrame implements ActionListener{
@@ -23,6 +22,7 @@ public class Window extends JFrame implements ActionListener{
 	private static Color background = new Color(210,227,210);
 	
 	private Stream stream;
+	private StreamThread st;
 	
 	private JPanel southPanel;
 	private JPanel zone;
@@ -31,8 +31,6 @@ public class Window extends JFrame implements ActionListener{
 	private JButton startButton;
 	private JButton stopButton;
 	private JPanel buttons = new JPanel();
-
-	private boolean stop;
 	
 	public Window(){
 		super("InnerG - bluetooth communication test") ; // Window title
@@ -89,6 +87,7 @@ public class Window extends JFrame implements ActionListener{
 	    	JOptionPane.showMessageDialog(this,result);
 	    else {
 	    	stream = s;
+	    	graph.setStream(s);
 	    	zone.setBorder(BorderFactory.createTitledBorder("Serial port : "+stream.port));
 	    }
 	}
@@ -97,7 +96,10 @@ public class Window extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==callButton){
 			 try {
-					stream.newLine();
+				if(stream!=null){
+					st = new StreamThread(stream);
+					st.start();
+				}
 				
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -106,11 +108,12 @@ public class Window extends JFrame implements ActionListener{
 		}
 		
 		else if(e.getSource()==startButton){
-			 setStream(new Stream(this));
+			 setStream(new Stream(graph));
 		}
 		
 		else if(e.getSource()==stopButton){
-			 stop = true;
+			 if(st!=null)
+				 st.interrupt();
 		}
 	}
 		
@@ -119,11 +122,4 @@ public class Window extends JFrame implements ActionListener{
 		System.exit(0);	
 	}
 
-
-	public void newData(Float[] values) {
-		graph.setAcc (Arrays.copyOfRange(values, 0, 2));
-		graph.setOri (Arrays.copyOfRange(values, 3, 5));
-		graph.repaint();
-		
-	}
 }
