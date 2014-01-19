@@ -16,10 +16,11 @@ public class StreamThread extends Thread {
 				stream.newLine();
 				Thread.sleep(20);
 			}
+			stream.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			stream.close();
 		}
 	}
 }

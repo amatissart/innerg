@@ -50,7 +50,7 @@ public class Window extends JFrame implements ActionListener{
 	
 		zone = new JPanel();
 		graph = new GraphPanel();
-		graph.setPreferredSize(new Dimension(300,300));
+		graph.setPreferredSize(new Dimension(500,500));
 		zone.setBorder(BorderFactory.createTitledBorder("Serial port : not connected"));
 		graph.setBackground(Color.white);
 		zone.add(graph);

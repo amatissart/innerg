@@ -16,6 +16,9 @@ public class Stream {
 	
 	public final String port = "/dev/rfcomm0";
 	private BufferedReader in;
+	private SerialPort serialPort;
+	private InputStream portInputStream;
+	
 	
 	volatile private Float[] acc,ori;
 	private GraphPanel graph;
@@ -34,14 +37,12 @@ public class Stream {
 
 	public String start(){
 		
-		InputStream portInputStream = null;
 
 		try {
 			CommPortIdentifier commPortIdentifier = CommPortIdentifier.getPortIdentifier(port);
-			SerialPort serialPort = (SerialPort) commPortIdentifier.open("Test", 2000);
+			serialPort = (SerialPort) commPortIdentifier.open("Test", 2000);
 			portInputStream = new BufferedInputStream(serialPort.getInputStream());
 	
-		
 			in = new BufferedReader(new InputStreamReader(portInputStream));
 			in.readLine();
 			
@@ -75,8 +76,8 @@ public class Stream {
 					val[i]=Float.valueOf(fig[i]);
 				}
 				
-				setAcc (Arrays.copyOfRange(val, 0, 2));
-				setOri (Arrays.copyOfRange(val, 3, 5));	
+				setAcc (Arrays.copyOfRange(val, 0, 3));
+				setOri (Arrays.copyOfRange(val, 3, 6));	
 				
 				graph.repaint();
 				
@@ -85,5 +86,20 @@ public class Stream {
 
 	public Float[] getOri() {
 		return ori;
+	}
+	
+	public Float[] getAcc() {
+		return acc;
+	}
+	
+	public void close(){
+		try {
+			in.close();
+			portInputStream.close();
+			serialPort.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
