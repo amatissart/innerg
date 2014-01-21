@@ -10,7 +10,7 @@ import gnu.io.CommPortIdentifier;
 import gnu.io.NoSuchPortException;
 import gnu.io.SerialPort;
 import gui.GraphPanel;
-
+import gui.Window;
 
 public class Stream {
 	
@@ -22,6 +22,7 @@ public class Stream {
 	
 	volatile private Float[] acc,ori;
 	private GraphPanel graph;
+	private Window window;
 
 	public void setAcc(Float[] values){
 		acc = values;
@@ -31,13 +32,13 @@ public class Stream {
 		ori = values;
 	}
 	
-	public Stream(GraphPanel g){
-		graph = g;
+	public Stream(Window w){
+		graph = w.getGraph();
+		window = w;
 	}
 
 	public String start(){
 		
-
 		try {
 			CommPortIdentifier commPortIdentifier = CommPortIdentifier.getPortIdentifier(port);
 			serialPort = (SerialPort) commPortIdentifier.open("Test", 2000);
@@ -80,6 +81,8 @@ public class Stream {
 				setOri (Arrays.copyOfRange(val, 3, 6));	
 				
 				graph.repaint();
+				window.setText("Acceleration  x: "+ acc[0]+" y: "+acc[1]+" z: "+acc[2],
+							   "Orientation   x: "+ ori[0]+" y: "+ori[1]+" z: "+ori[2]	);
 				
 			}
 	}

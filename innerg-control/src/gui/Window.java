@@ -27,15 +27,19 @@ public class Window extends JFrame implements ActionListener{
 	private JPanel southPanel;
 	private JPanel zone;
 	private GraphPanel graph;
-	private JButton callButton = new JButton("Update");
+	private JButton callButton = new JButton("Read");
 	private JButton startButton;
 	private JButton stopButton;
 	private JPanel buttons = new JPanel();
+	JLabel oriText;
+	JLabel accText;
+	
 	
 	public Window(){
 		super("InnerG - bluetooth communication test") ; // Window title
 		
-		JLabel prompt = new JLabel(" >  ");
+		oriText = new JLabel(" No data ...");
+		accText = new JLabel(" No data ...");
 		
 		setJMenuBar(new MyMenuBar(this));
 		this.setLayout(new BorderLayout());
@@ -44,7 +48,7 @@ public class Window extends JFrame implements ActionListener{
 		southPanel.setLayout(new BorderLayout());
 		southPanel.setOpaque(true);
 		southPanel.setBackground(background);
-		southPanel.setBorder(BorderFactory.createTitledBorder("Télécommande"));
+		southPanel.setBorder(BorderFactory.createTitledBorder("Data"));
 		
 		buttons.setOpaque(false);
 	
@@ -70,7 +74,8 @@ public class Window extends JFrame implements ActionListener{
 		
 		southPanel.add(callButton,BorderLayout.EAST);
 		southPanel.add(buttons,BorderLayout.SOUTH);
-		southPanel.add(prompt,BorderLayout.WEST);
+		southPanel.add(oriText,BorderLayout.WEST);
+		southPanel.add(accText,BorderLayout.NORTH);
 		
 		this.add(zone,BorderLayout.CENTER);
 		this.add(southPanel,BorderLayout.SOUTH);
@@ -108,7 +113,7 @@ public class Window extends JFrame implements ActionListener{
 		}
 		
 		else if(e.getSource()==startButton){
-			 setStream(new Stream(graph));
+			 setStream(new Stream(this));
 		}
 		
 		else if(e.getSource()==stopButton){
@@ -120,6 +125,15 @@ public class Window extends JFrame implements ActionListener{
 	
 	public void exit() {
 		System.exit(0);	
+	}
+	
+	public void setText(String s1,String s2){
+		accText.setText(s1);
+		oriText.setText(s2);
+	}
+
+	public GraphPanel getGraph() {
+		return graph;
 	}
 
 }
