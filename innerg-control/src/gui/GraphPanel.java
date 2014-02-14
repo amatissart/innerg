@@ -39,14 +39,10 @@ public class GraphPanel extends JPanel {
 			 
 			 g2.setColor(Color.blue);
 			 
-		//	 double angle = Math.atan2(acc[1], acc[2]);
-		//	 g2.rotate(angle, size/2, size/2);
 			 g2.rotate(ori[1]*Math.PI/180,size/2,size/2+100);
 			 
 			// int height = (int) (10+ 100* Math.abs(Math.sin(ori[2]*Math.PI/180)));
 			 int height = 10;
-			 
-			// g2.rotate(ori[0]*Math.PI/180,150,150);
 			 
 			 g2.fillRect(150, 350-height/2, 200, height);
 			 g2.dispose();
@@ -57,11 +53,7 @@ public class GraphPanel extends JPanel {
 			 g2.setColor(Color.red);
 	 		 g2.drawOval(xCircle - sizeCircle/2, yCircle-sizeCircle/2, sizeCircle, sizeCircle);
 	 		 g2.rotate(ori[0]*Math.PI/180, xCircle, yCircle);
-	 		 g2.fillPolygon(triangle);
-			 
-			 
-			
-			 
+	 		 g2.fillPolygon(triangle); 
 			 
 		 }
 		

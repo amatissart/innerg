@@ -12,11 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import data.ProcessingInterface;
 import data.Stream;
 import data.StreamThread;
 
 
-public class Window extends JFrame implements ActionListener{
+public class Window extends JFrame implements ActionListener, ProcessingInterface{
 	private static final long serialVersionUID = 1L;
 	
 	private static Color background = new Color(210,227,210);
@@ -59,7 +60,7 @@ public class Window extends JFrame implements ActionListener{
 		graph.setBackground(Color.white);
 		zone.add(graph);
 		
-		startButton = new JButton("Start");
+		startButton = new JButton("Connect");
 		buttons.add(startButton);
 		
 		callButton.addActionListener(this);
@@ -86,15 +87,9 @@ public class Window extends JFrame implements ActionListener{
 	   }
 	
 	public void setStream(Stream s){
-		String result = s.start();
-	    
-	    if(!result.isEmpty())
-	    	JOptionPane.showMessageDialog(this,result);
-	    else {
-	    	stream = s;
-	    	graph.setStream(s);
-	    	zone.setBorder(BorderFactory.createTitledBorder("Serial port : "+stream.port));
-	    }
+		stream = s;
+	    graph.setStream(s);
+	    zone.setBorder(BorderFactory.createTitledBorder("Serial port : "+stream.port));
 	}
 
 	@Override
@@ -102,7 +97,7 @@ public class Window extends JFrame implements ActionListener{
 		if(e.getSource()==callButton){
 			 try {
 				if(stream!=null){
-					st = new StreamThread(stream);
+					st = new StreamThread(stream,this);
 					st.start();
 				}
 				
@@ -113,7 +108,7 @@ public class Window extends JFrame implements ActionListener{
 		}
 		
 		else if(e.getSource()==startButton){
-			 setStream(new Stream(this));
+			 setStream(new Stream());
 		}
 		
 		else if(e.getSource()==stopButton){
@@ -134,6 +129,13 @@ public class Window extends JFrame implements ActionListener{
 
 	public GraphPanel getGraph() {
 		return graph;
+	}
+
+	public void update(Float[] acc ,Float[] ori){
+		
+		graph.repaint();
+		setText("Acceleration  x: "+ acc[0]+" y: "+acc[1]+" z: "+acc[2],
+				   "Orientation   x: "+ ori[0]+" y: "+ori[1]+" z: "+ori[2]	);
 	}
 
 }

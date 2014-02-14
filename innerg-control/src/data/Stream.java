@@ -9,32 +9,29 @@ import java.util.Arrays;
 import gnu.io.CommPortIdentifier;
 import gnu.io.NoSuchPortException;
 import gnu.io.SerialPort;
-import gui.GraphPanel;
-import gui.Window;
 
 public class Stream {
 	
-	public final String port = "/dev/rfcomm0";
+	public final String port = "/dev/rfcomm0";  // Port série correspondant à la communication Bluetooth
 	private BufferedReader in;
 	private SerialPort serialPort;
 	private InputStream portInputStream;
 	
-	
-	volatile private Float[] acc,ori;
-	private GraphPanel graph;
-	private Window window;
+	volatile private Float[] acc,ori;    // Tableaux contenant les données temps réel : Acceleration et Orientation
 
-	public void setAcc(Float[] values){
-		acc = values;
+	public void setAcc(Float[] accValues){
+		acc = accValues;
 	}
 	
-	public void setOri(Float[] values){
-		ori = values;
+	public void setOri(Float[] oriValues){
+		ori = oriValues;
 	}
 	
-	public Stream(Window w){
-		graph = w.getGraph();
-		window = w;
+	public Stream(){
+		String result = this.start();
+		
+		if(!result.isEmpty())
+		    System.err.println(result);
 	}
 
 	public String start(){
@@ -60,7 +57,7 @@ public class Stream {
 		 		
 	}
 	
-	public void newLine() throws IOException{
+	public void newLine(ProcessingInterface proc) throws IOException{
 			String temp=null;
 			String[] fig;
 			Float[] val = new Float[6];
@@ -70,8 +67,8 @@ public class Stream {
 			}
 			
 			if (temp != null){
-				temp = temp.replace(',','.');
-				fig=temp.split(";");
+				temp = temp.replace(',','.');  // L'application Android utilise (à tort) des virgules en tant que séparateur décimal
+				fig=temp.split(";");		   // Les 6 valeurs reçues sur une ligne sont séparées par un point-virgule
 				
 				for(int i=0;i<6;i++){
 					val[i]=Float.valueOf(fig[i]);
@@ -80,10 +77,7 @@ public class Stream {
 				setAcc (Arrays.copyOfRange(val, 0, 3));
 				setOri (Arrays.copyOfRange(val, 3, 6));	
 				
-				graph.repaint();
-				window.setText("Acceleration  x: "+ acc[0]+" y: "+acc[1]+" z: "+acc[2],
-							   "Orientation   x: "+ ori[0]+" y: "+ori[1]+" z: "+ori[2]	);
-				
+				proc.update(acc,ori);  // C'est ici que le traitement est lancé, lorsque les valeurs sont reçues		
 			}
 	}
 
