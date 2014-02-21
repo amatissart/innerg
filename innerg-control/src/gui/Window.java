@@ -1,4 +1,6 @@
 package gui;
+import gpioClient.GpioControl;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import data.Main;
 import data.ProcessingInterface;
 import data.Stream;
 import data.StreamThread;
@@ -32,12 +35,16 @@ public class Window extends JFrame implements ActionListener, ProcessingInterfac
 	private JButton startButton;
 	private JButton stopButton;
 	private JPanel buttons = new JPanel();
+	private GpioControl gpio;
 	JLabel oriText;
 	JLabel accText;
 	
 	
 	public Window(){
 		super("InnerG - bluetooth communication test") ; // Window title
+		
+		if(Main.Switch)
+			gpio = new GpioControl();
 		
 		oriText = new JLabel(" No data ...");
 		accText = new JLabel(" No data ...");
@@ -136,6 +143,17 @@ public class Window extends JFrame implements ActionListener, ProcessingInterfac
 		graph.repaint();
 		setText("Acceleration  x: "+ acc[0]+" y: "+acc[1]+" z: "+acc[2],
 				   "Orientation   x: "+ ori[0]+" y: "+ori[1]+" z: "+ori[2]	);
+		
+		if (Main.Switch) {
+			if (ori[1] > 15) {
+				gpio.turnOn(1);
+				gpio.turnOff(2);
+			} else if (ori[1] < -15) {
+				gpio.turnOn(2);
+				gpio.turnOff(1);
+			}
+		}
+		
 	}
 
 }
