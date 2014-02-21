@@ -51,6 +51,10 @@ public class Processing implements ProcessingInterface {
 		
 		Data data = new Data();
 		
+		/**
+		 * METTRE DATA A JOUR AVEC acc et ori
+		 */
+		
 		float amp = data.getAmp();
 		
 		//Si l'entree est faible
