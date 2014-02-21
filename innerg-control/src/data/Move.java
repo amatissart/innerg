@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 public class Move {
 	
+	public static final boolean DEV_MODE = false;
+	
 	private ArrayList<Data> move;
 	private int moveID;
 	private String moveName;
@@ -130,7 +132,7 @@ public class Move {
 		for(int i = 0;i<min;i++)
 		{
 			dist+=move.get(i).calcDist(studiedMove.getMove().get(i));
-			if(false) System.out.println("distance = "+dist);
+			if(DEV_MODE) System.out.println("distance = "+dist);
 			
 		}
 		

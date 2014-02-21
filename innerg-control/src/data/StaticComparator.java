@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 public class StaticComparator {
 	
+	public static final boolean DEV_MODE = false;
+	
 	private ArrayList<Move> movesDatabase;
 
 	public StaticComparator() {
@@ -43,7 +45,7 @@ public class StaticComparator {
 		{
 			float newDist = moveStudied.calcDist(movesDatabase.get(i));
 			
-			if(true) System.out.println("La distance au mvt "+movesDatabase.get(i).getMoveID()+" est de : "+newDist);
+			if(DEV_MODE) System.out.println("La distance au mvt "+movesDatabase.get(i).getMoveID()+" est de : "+newDist);
 			
 			//Si la distance est plus petite que le seuil et minimale on actualise les données
 			if(newDist<threshold && newDist<minDist)
