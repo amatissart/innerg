@@ -5,8 +5,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
- * Cet objet est créer quand on veut apprendre un nouveau mouvement. Il faut lui communiquer chaque 
- * nouveau paquet (Data) et lui inqiuer quand le mouveau est terminé afin qu'il mette à jour le mouvement
+ * Cet objet est crée quand on veut apprendre un nouveau mouvement. Il faut lui communiquer chaque 
+ * nouveau paquet (Data) et lui indiquer quand le mouveau est terminé afin qu'il mette à jour le mouvement
  * moyen.
  **/
 

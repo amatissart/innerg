@@ -100,6 +100,7 @@ public class Data {
 		
 		for(int i =0; i<nbParam;i++)
 		{
+			//A passer en switch
 			if(params[i] == 1)
 			{
 				distPoint=Math.abs(aX - studiedData.getaX());
@@ -141,7 +142,51 @@ public class Data {
 		
 		return calcDist(studiedData,tab);
 		
-	}	
+	}
 	
+	//Calcul l'amplitude d'un point (si le portable bouge suffisement selon certain parametres
+	public float getAmp(int[] params)
+	{
+		int size = params.length;
+		float amp = 0;
+		
+		for(int i=0;i<size;i++)
+		{
+			switch(params[i])
+			{
+			case 1:
+				amp +=Math.abs(aX);
+				break;
+			case 2:
+				amp +=Math.abs(aY);
+				break;
+			case 3:
+				amp +=Math.abs(aZ);
+				break;
+			case 4:
+				amp +=Math.abs(oX);
+				break;
+			case 5:
+				amp +=Math.abs(oY);
+				break;
+			case 6:
+				amp +=Math.abs(oZ);
+				break;
+			default:
+				amp+=0;
+			
+			}
+			
+		}
+		return amp;
+	}
+	
+	//Si rien en entrée on prend tout en compte
+	public float getAmp()
+	{
+		int[] tab = new int[6];
+		for(int i=0;i<6;i++) tab[i] = i+1;
+		return getAmp(tab);
+	}
 
 }
