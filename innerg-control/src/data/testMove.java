@@ -13,7 +13,7 @@ public class testMove {
 		StaticComparator sc = new StaticComparator();
 		
 		Move move = new Move();
-		move.initialise("moves/movetest.txt");
+		move.initialise("innerg/moves/movetest.txt");
 		
 		System.out.println(sc.getBestMove(move, 10));
 

@@ -22,11 +22,11 @@ public class StaticComparator {
 		
 		movesDatabase = new ArrayList<Move>();
 		Move myMove1 = new Move();
-		myMove1.initialise("moves/move1.txt");
+		myMove1.initialise("innerg/moves/move1.txt");
 		myMove1.setMoveID(1);
 		
 		Move myMove2 = new Move();
-		myMove2.initialise("moves/move2.txt");
+		myMove2.initialise("innerg/moves/move2.txt");
 		myMove2.setMoveID(2);
 		
 		movesDatabase.add(myMove1);
