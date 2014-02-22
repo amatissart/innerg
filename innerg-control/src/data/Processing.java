@@ -8,6 +8,7 @@ public class Processing implements ProcessingInterface {
 	
 	private Move move;
 	private boolean isOn;
+	private boolean block; //Bloque l'execution de update
 	private int offCount; //Compte le nombre d'itération sans mouveùent (a un delta pres)
 	private final float[] deltas; //delta pour chaque parametre
 	private int mode; //Le mode en cour, aprentissage(0), analyse statique (1)
@@ -23,13 +24,14 @@ public class Processing implements ProcessingInterface {
 		super();
 		this.move = new Move();
 		this.isOn = false;
+		this.block = false;
 		this.offCount = 0;
 		this.deltas = new float[6];
 		this.sc=new StaticComparator();
 		this.lm = new LearnMove();
 		this.mode = 1;
 		
-		//Au pif : A REGLER
+		//Au pif : A REGLER - Pas utilisé pour l'instant
 		deltas[1]=10; //aX
 		deltas[2]=10;
 		deltas[3]=10;
@@ -41,86 +43,87 @@ public class Processing implements ProcessingInterface {
 	
 	public void update(Float[] acc, Float[] ori) {
 		
-		/*
-		 * On verifie d'abort "l'amplitude" des données recues. Si cette amplitude est trop faible,
-		 * on verifie tout de meme que ce point n'est pas une singularité d'un mouvement.Autrement dit,
-		 * il est possible qu'au cours d'un mvt, un point est une amplitude faible ce qui ne signifie pas
-		 * que le mouvement est terminé. On incremente donc une varible offCount qui mesure le nombre de fois
-		 * que l'entree est "nulle" consecutivement.
-		 */
-		
-		Data data = new Data();
-		
-		/**
-		 * METTRE DATA A JOUR AVEC acc et ori
-		 */
-		
-		float amp = data.getAmp();
-		
-		//Si l'entree est faible
-		if(amp < AMP_MIN)
-		{	
-			//Si l'analyse est en cour
-			if(isOn)
-			{
-				//L'entree est faible depuis trop longtemps on arrete le process
-				if(offCount > MAX_OFFCOUNT)
-				{	
-					//Si on etait en apprentissage
-					if(mode == 0)
-					{
-						lm.recalcMeanData();
-						lm.rebootCur();
-					}
-					//Si on etait en analyse
-					else if(mode == 0)
-					{
-						//On compare ce mouvement 
-						int id = sc.getBestMove(move,_THRESHOLD);
-						
-						/**
-						 * ET LA ON FAIT UN TRUC EN FONCTION DE LA REPONSE
-						 */
-						
-						//On reinitialise move;
-						move = new Move();
-					}
-					
-					isOn =false;
-				}
-				else //On continue d'enregistrer les données
+		if(!block)
+		{
+			/*
+			 * On verifie d'abort "l'amplitude" des données recues. Si cette amplitude est trop faible,
+			 * on verifie tout de meme que ce point n'est pas une singularité d'un mouvement.Autrement dit,
+			 * il est possible qu'au cours d'un mvt, un point est une amplitude faible ce qui ne signifie pas
+			 * que le mouvement est terminé. On incremente donc une varible offCount qui mesure le nombre de fois
+			 * que l'entree est "nulle" consecutivement.
+			 */
+			
+			Data data = new Data(acc[0],acc[1],acc[2],ori[0],ori[1],ori[2]);
+			
+			float amp = data.getAmp();
+			
+			//Si l'entree est faible
+			if(amp < AMP_MIN)
+			{	
+				//Si l'analyse est en cour
+				if(isOn)
 				{
-					//Si on etait en apprentissage
-					if(mode == 0)
-					{
-						lm.pushNewData(data);
+					//L'entree est faible depuis trop longtemps on arrete le process
+					if(offCount > MAX_OFFCOUNT)
+					{	
+						//Si on etait en apprentissage
+						if(mode == 0)
+						{
+							lm.recalcMeanData();
+							if(!lm.rebootCur()) //Si l'apprentissage est terminé on bloque la fonction
+								block=true;
+						}
+						//Si on etait en analyse
+						else if(mode == 0)
+						{
+							//On compare ce mouvement 
+							int id = sc.getBestMove(move,_THRESHOLD);
+							
+							/**
+							 * ET LA ON FAIT UN TRUC EN FONCTION DE LA REPONSE
+							 */
+							
+							//On reinitialise move;
+							move = new Move();
+						}
+						
+						isOn =false;
 					}
-					else if(mode == 1)
+					else //On continue d'enregistrer les données
 					{
-						move.getMove().add(data);
+						//Si on etait en apprentissage
+						if(mode == 0)
+						{
+							lm.pushNewData(data);
+						}
+						else if(mode == 1)
+						{
+							move.getMove().add(data);
+						}
 					}
+				}
+				//Sinon on laisse passer ce point
+				offCount++;
+					
+			}
+			else //L'amplitude est suffisante
+			{
+				offCount = 0;
+				//Si c'est pas deja fait on lance le process
+				isOn = true;
+				
+				//Si on etait en apprentissage
+				if(mode == 0)
+				{
+					lm.pushNewData(data);
+				}
+				else if(mode == 1)
+				{
+					move.getMove().add(data);
 				}
 			}
-			//Sinon on laisse passer ce point
 				
 		}
-		else //L'amplitude est suffisante
-		{
-			offCount = 0;
-			//Si c'est pas deja fait on lance le process
-			isOn = true;
-			
-			//Si on etait en apprentissage
-			if(mode == 0)
-			{
-				lm.pushNewData(data);
-			}
-			else if(mode == 1)
-			{
-				move.getMove().add(data);
-			}
-		}
-			
 	}
 
 }

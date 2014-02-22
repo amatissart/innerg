@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class StaticComparator {
 	
-	public static final boolean DEV_MODE = false;
+	public static final boolean DEV_MODE = true;
 	
 	private ArrayList<Move> movesDatabase;
 

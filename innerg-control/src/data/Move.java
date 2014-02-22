@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class Move {
 	
-	public static final boolean DEV_MODE = false;
+	public static final boolean DEV_MODE = true;
 	
 	private ArrayList<Data> move;
 	private int moveID;
@@ -82,7 +82,7 @@ public class Move {
 				for(int i=0;i<size;i++)
 				{
 					datasFloat[i] = Float.parseFloat(datas[i]);
-					if(false) System.out.println("La donnée "+datas[i]+" devient "+datasFloat[i]);
+					if(DEV_MODE) System.out.println("La donnée "+datas[i]+" devient "+datasFloat[i]);
 				}
 				
 				Data data = new Data(datasFloat[0],datasFloat[1],datasFloat[2],datasFloat[3],datasFloat[4],datasFloat[5]);

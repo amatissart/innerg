@@ -18,6 +18,8 @@ public class LearnMove {
 	private Move meanMove; //Contient les données moyennes
 	private int nbDatas; //Le nombre de mouvements utilisés dans la moyenne
 	
+	private final int nbLearning = 20; //Nombre de mouvement avant arret appren.
+	
 	public static final float THRESHOLD_VALID = 10; //AU PIF, seuil a partir duquel un point d'appren est considérer comme une singularité non valide
 
 	public LearnMove() {
@@ -26,8 +28,16 @@ public class LearnMove {
 		this.nbDatas=0;
 	}
 	
-	public void rebootCur(){
-		currentMove = new Move();
+	public boolean rebootCur(){
+		
+		if(nbDatas >nbLearning)
+		{
+			return false;
+			//On arrete l'apprentissage
+		}
+		else
+			currentMove = new Move();
+			return true;
 	}
 	
 	// Ajouter un point à la currentdatas
