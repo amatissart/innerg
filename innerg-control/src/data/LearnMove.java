@@ -17,6 +17,8 @@ public class LearnMove {
 	private Move currentMove; //Contient un mouvement en cour d'apprentissage
 	private Move meanMove; //Contient les données moyennes
 	private int nbDatas; //Le nombre de mouvements utilisés dans la moyenne
+	
+	public static final float THRESHOLD_VALID = 10; //AU PIF, seuil a partir duquel un point d'appren est considérer comme une singularité non valide
 
 	public LearnMove() {
 		super();
@@ -41,47 +43,57 @@ public class LearnMove {
 		int meanSize = meanMove.getMove().size();
 		
 		//Si c'est le premier mouvement 
-		if(nbDatas == 0) meanMove = new Move(currentMove.getMove(),currentMove.getMoveID(),currentMove.getMoveName());
+		if(nbDatas == 0){
+			meanMove = new Move(currentMove.getMove(),currentMove.getMoveID(),currentMove.getMoveName());
+			nbDatas++;
+		}
 		else
 		{
-			boolean toolong = false;
-			int max = Math.max(meanSize, curSize);
-			int min = Math.min(meanSize, curSize);
 			
-			//Si le nouveau mouvement d'appren. est plus long que le moyen
-			if(meanSize==min) toolong = true;
-			
-			for(int i=0; i<min;i++)
+			//On vérifie que ce mouvement n'est pas une singularité
+			if(currentMove.calcDist(meanMove)<THRESHOLD_VALID)
 			{
-				meanMove.getMove().get(i).actualiseMean(currentMove.getMove().get(i), 1, nbDatas);
-			}
-			
-			Data nulData = new Data();
-
-			//Si toolong = true on ajoute les valeurs (pondérées avec des zeros);
-			if(toolong)
-			{
-				for(int j = min;j<max;j++)
+				boolean toolong = false;
+				int max = Math.max(meanSize, curSize);
+				int min = Math.min(meanSize, curSize);
+				
+				//Si le nouveau mouvement d'appren. est plus long que le moyen
+				if(meanSize==min) toolong = true;
+				
+				for(int i=0; i<min;i++)
 				{
-					currentMove.getMove().get(j).actualiseMean(nulData, nbDatas, 1);
-					meanMove.getMove().add(currentMove.getMove().get(j));
-					
+					meanMove.getMove().get(i).actualiseMean(currentMove.getMove().get(i), 1, nbDatas);
 				}
-			}
-			//Sinon on ajoute on moyenne avec zero meandatas
-			else
-			{
-				for(int j = min;j<max;j++)
+				
+				Data nulData = new Data();
+	
+				//Si toolong = true on ajoute les valeurs (pondérées avec des zeros);
+				if(toolong)
 				{
-					meanMove.getMove().get(j).actualiseMean(nulData, 1, nbDatas);				
+					for(int j = min;j<max;j++)
+					{
+						currentMove.getMove().get(j).actualiseMean(nulData, nbDatas, 1);
+						meanMove.getMove().add(currentMove.getMove().get(j));
+						
+					}
 				}
-			}		
+				//Sinon on ajoute on moyenne avec zero meandatas
+				else
+				{
+					for(int j = min;j<max;j++)
+					{
+						meanMove.getMove().get(j).actualiseMean(nulData, 1, nbDatas);				
+					}
+				}
+				
+				nbDatas++;
+				//On a ajouté une nouvelle donnée a notre mouvement moyen
+				
+			}
 			
 		}
-		
-		nbDatas++;
 			
-			//On a ajouté une nouvelle donnée a notre mouvement moyen
+			
 			
 	}
 		
