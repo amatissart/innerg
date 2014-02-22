@@ -7,9 +7,9 @@ package data;
 public class Processing implements ProcessingInterface {
 	
 	private Move move;
-	private boolean isOn;
+	private boolean isOn; //Détermine si un processus (appretissage, detection est en cour
 	private boolean block; //Bloque l'execution de update
-	private int offCount; //Compte le nombre d'itération sans mouveùent (a un delta pres)
+	private int offCount; //Compte le nombre d'itération sans mouvement (a un delta pres)
 	private final float[] deltas; //delta pour chaque parametre
 	private int mode; //Le mode en cour, aprentissage(0), analyse statique (1)
 	private StaticComparator sc;
@@ -28,7 +28,7 @@ public class Processing implements ProcessingInterface {
 		this.offCount = 0;
 		this.deltas = new float[6];
 		this.sc=new StaticComparator();
-		this.lm = new LearnMove();
+		this.lm = new LearnMove("le chemin");
 		this.mode = 1;
 		
 		//Au pif : A REGLER - Pas utilisé pour l'instant

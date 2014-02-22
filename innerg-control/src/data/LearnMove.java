@@ -17,21 +17,25 @@ public class LearnMove {
 	private Move currentMove; //Contient un mouvement en cour d'apprentissage
 	private Move meanMove; //Contient les données moyennes
 	private int nbDatas; //Le nombre de mouvements utilisés dans la moyenne
+	private String filepath; //Chemin d'enregistrement
 	
 	private final int nbLearning = 20; //Nombre de mouvement avant arret appren.
 	
 	public static final float THRESHOLD_VALID = 10; //AU PIF, seuil a partir duquel un point d'appren est considérer comme une singularité non valide
 
-	public LearnMove() {
+	public LearnMove(String filepath) {
 		super();
 		this.currentMove = new Move();
 		this.nbDatas=0;
+		this.filepath = filepath;
 	}
 	
 	public boolean rebootCur(){
 		
 		if(nbDatas >nbLearning)
 		{
+			this.saveMove();
+			
 			return false;
 			//On arrete l'apprentissage
 		}
@@ -108,7 +112,7 @@ public class LearnMove {
 	}
 		
 	//Pour enregistrer le mouvement dans un fichier texte
-	public void saveMove(String filepath)
+	public void saveMove()
 	{
 		meanMove.saveMove(filepath);
 		

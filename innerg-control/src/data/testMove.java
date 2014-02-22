@@ -15,7 +15,7 @@ public class testMove {
 		Move move = new Move();
 		move.initialise("moves/movetest.txt");
 		
-		System.out.println(sc.getBestMove(move, 200));
+		System.out.println(sc.getBestMove(move, 10));
 
 	}
 

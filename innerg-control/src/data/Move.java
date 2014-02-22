@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class Move {
 	
-	public static final boolean DEV_MODE = true;
+	private final boolean DEV_MODE = false;
 	
 	private ArrayList<Data> move;
 	private int moveID;
@@ -82,7 +82,6 @@ public class Move {
 				for(int i=0;i<size;i++)
 				{
 					datasFloat[i] = Float.parseFloat(datas[i]);
-					if(DEV_MODE) System.out.println("La donnée "+datas[i]+" devient "+datasFloat[i]);
 				}
 				
 				Data data = new Data(datasFloat[0],datasFloat[1],datasFloat[2],datasFloat[3],datasFloat[4],datasFloat[5]);
@@ -111,6 +110,7 @@ public class Move {
 	        out.print(move.get(i).getoY() + ";");
 	        out.println(move.get(i).getoZ() + ";");
 	      }
+	      if(true) System.out.println("Move : Fichier sauvegardé !");
 	      out.close();
 	    }
 	    catch(Exception e){
@@ -127,16 +127,44 @@ public class Move {
 		int studySize = studiedMove.getMove().size();
 		
 		int min = Math.min(moveSize, studySize);
+		int max = Math.max(moveSize, studySize);
+		
 		float dist = 0;
+		
+		if(DEV_MODE) System.out.println("Move : Mouvement num "+studiedMove.getMoveID());
 		
 		for(int i = 0;i<min;i++)
 		{
 			dist+=move.get(i).calcDist(studiedMove.getMove().get(i));
-			if(DEV_MODE) System.out.println("distance = "+dist);
+			if(DEV_MODE) System.out.println("Move : distance a l'etape "+i+" = "+dist);
 			
 		}
 		
-		dist = dist/min;
+		Data nuldata = new Data();
+		
+		//Si un des move est plus long on fait la difference avec zero
+		if(moveSize == min){
+			
+			for(int i=min;i<max;i++){
+				dist+=studiedMove.getMove().get(i).calcDist(nuldata);
+				if(DEV_MODE) System.out.println("Move : distance a l'etape "+i+" = "+dist);
+			}
+			
+		}
+		
+		else
+		{
+			
+			for(int i=min;i<max;i++){
+				dist+=move.get(i).calcDist(nuldata);
+				if(DEV_MODE) System.out.println("Move : distance a l'etape "+i+" = "+dist);
+			}
+			
+		}
+		
+
+		
+		dist = dist/max;
 		
 		return dist;
 		
