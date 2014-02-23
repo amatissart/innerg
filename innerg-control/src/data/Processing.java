@@ -10,7 +10,6 @@ public class Processing implements ProcessingInterface {
 	private boolean isOn; //Détermine si un processus (appretissage, detection est en cour
 	private boolean block; //Bloque l'execution de update
 	private int offCount; //Compte le nombre d'itération sans mouvement (a un delta pres)
-	private final float[] deltas; //delta pour chaque parametre
 	private int mode; //Le mode en cour, aprentissage(0), analyse statique (1)
 	private StaticComparator sc;
 	private LearnMove lm;
@@ -18,7 +17,6 @@ public class Processing implements ProcessingInterface {
 	
 	public static final float AMP_MIN = 2; //AU PIF !
 	public static final int MAX_OFFCOUNT = 4; //AU PIF !
-	public static final int _THRESHOLD = 15; //AU PIF !
 	
 	
 	public Processing() {
@@ -27,20 +25,12 @@ public class Processing implements ProcessingInterface {
 		this.isOn = false;
 		this.block = false;
 		this.offCount = 0;
-		this.deltas = new float[6];
 		this.sc=new StaticComparator();
 		this.lm = new LearnMove("innerg/moves/movelearn.txt");
 		this.mode = 1;
 		this.params = new int[3];
 		
-		//Au pif : A REGLER - Pas utilisé pour l'instant
-		deltas[0]=10;//aX
-		deltas[1]=10; 
-		deltas[2]=10;
-		deltas[3]=10;//oX
-		deltas[4]=10; 
-		deltas[5]=10;
-		
+		//On ne calcule les distance/amplitude qu'en fonction du gyro
 		params[0]=1;
 		params[1]=2;
 		params[2]=3;
@@ -95,7 +85,7 @@ public class Processing implements ProcessingInterface {
 						else if(mode == 1)
 						{
 							//On compare ce mouvement 
-							int id = sc.getBestMove(move,_THRESHOLD);
+							int id = sc.getBestMove(move);
 							
 							if(true) System.out.println("Le mouvement est le numéro "+id);
 							

@@ -21,7 +21,7 @@ public class LearnMove {
 	
 	private final int nbLearning = 8; //Nombre de mouvement avant arret appren.
 	
-	public static final float THRESHOLD_VALID = 15; //AU PIF, seuil a partir duquel un point d'appren est considérer comme une singularité non valide
+	private final float THRESHOLD_VALID = 15; //AU PIF, seuil a partir duquel un point d'appren est considérer comme une singularité non valide
 
 	public LearnMove(String filepath) {
 		super();

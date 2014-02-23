@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class StaticComparator {
 	
 	private final boolean DEV_MODE = true;
+	private final int _THRESHOLD = 5; // Seuil d'acceptation d'un mouvement, a regler
 	
 	private ArrayList<Move> movesDatabase;
 
@@ -32,7 +33,7 @@ public class StaticComparator {
 	
 	//Fonction retournant l'id du mouvement le plus proche ou -1 s l'écart est > seuil
 	
-	public int getBestMove(Move moveStudied, float threshold)
+	public int getBestMove(Move moveStudied)
 	{
 		float minDist = Integer.MAX_VALUE;
 		int nbMoves = movesDatabase.size();
@@ -45,7 +46,7 @@ public class StaticComparator {
 			if(DEV_MODE) System.out.println("La distance au mvt "+movesDatabase.get(i).getMoveID()+" est de : "+newDist);
 			
 			//Si la distance est plus petite que le seuil et minimale on actualise les données
-			if(newDist<threshold && newDist<minDist)
+			if(newDist<_THRESHOLD && newDist<minDist)
 			{
 				id = movesDatabase.get(i).getMoveID();
 				minDist = newDist;

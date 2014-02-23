@@ -33,6 +33,7 @@ public class Move {
 		this.moveName = moveName;
 		this.params=new int[3];
 		
+		//On etudie que le gyroscope
 		params[0]=1;
 		params[1]=2;
 		params[2]=3;
@@ -158,7 +159,7 @@ public class Move {
 		if(moveSize == min){
 			
 			for(int i=min;i<max;i++){
-				dist+=studiedMove.getMove().get(i).calcDist(nuldata);
+				dist+=studiedMove.getMove().get(i).calcDist(nuldata,params);
 				if(DEV_MODE) System.out.println("Move : distance a l'etape "+i+" = "+dist);
 			}
 			
@@ -168,7 +169,7 @@ public class Move {
 		{
 			
 			for(int i=min;i<max;i++){
-				dist+=move.get(i).calcDist(nuldata);
+				dist+=move.get(i).calcDist(nuldata,params);
 				if(DEV_MODE) System.out.println("Move : distance a l'etape "+i+" = "+dist);
 			}
 			
@@ -178,7 +179,7 @@ public class Move {
 		
 		dist = dist/max;
 		
-		if(true) System.out.println("Move : distance = "+dist);
+		if(DEV_MODE) System.out.println("Move : distance = "+dist);
 		
 		return dist;
 		
