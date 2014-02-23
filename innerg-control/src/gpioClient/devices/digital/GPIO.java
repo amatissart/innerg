@@ -36,7 +36,7 @@ public class GPIO extends Device {
 	
 	public boolean digitalRead(int channel) {
 		String res = this.sendRequest("GET", "/" + channel + "/value");
-		if (res.equals("1")) {
+		if (res.startsWith("1")) {
 			return true;
 		}
 		return false;

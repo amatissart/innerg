@@ -4,8 +4,8 @@ import gui.Window;
 
 public class Main {
 	
-	public static final boolean GuiTest = false; // Si vrai, le programme lance l'interface graphique de test
-	public static final boolean Switch = false;  // Commande ou non des interrupteurs via RaspberryPi
+	public static final boolean GuiTest = true; // Si vrai, le programme lance l'interface graphique de test
+	public static final boolean Switch = true;  // Commande ou non des interrupteurs via RaspberryPi
 
 	public static void main(String[] args) {
 		
