@@ -21,7 +21,7 @@ public class TestAppr {
 	public TestAppr() {
 		super();
 		this.longmove = new Move();
-		read("innerg/moves/multimoves.txt");
+		read("innerg/moves/apprmove.txt");
 	}
 
 
@@ -66,7 +66,7 @@ public class TestAppr {
 		
 		Processing proc = new Processing();
 		
-		proc.setMode(1);
+		proc.setMode(0);
 		
 		while(count<size)
 		{
