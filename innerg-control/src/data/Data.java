@@ -100,30 +100,29 @@ public class Data {
 		
 		for(int i =0; i<nbParam;i++)
 		{
-			//A passer en switch
-			if(params[i] == 1)
+
+			switch(params[i])
 			{
+			case 1:
 				distPoint=Math.abs(aX - studiedData.getaX());
-			}
-			else if(params[i] == 2)
-			{
+				break;
+			case 2:
 				distPoint=Math.abs(aY - studiedData.getaY());
-			}
-			else if(params[i] == 3)
-			{
+				break;
+			case 3:
 				distPoint=Math.abs(aZ - studiedData.getaZ());
-			}
-			else if(params[i] == 4)
-			{
+				break;
+			case 4:
 				distPoint=Math.abs(oX - studiedData.getoX());
-			}
-			else if(params[i] == 5)
-			{
+				break;
+			case 5:
 				distPoint=Math.abs(oY - studiedData.getoY());
-			}
-			else if(params[i] == 6)
-			{
+				break;
+			case 6:
 				distPoint=Math.abs(oZ - studiedData.getoZ());
+				break;
+			default:
+				break;
 			}
 			
 			dist+=distPoint;
@@ -134,7 +133,7 @@ public class Data {
 		
 	}
 	
-	//Si le tableau n'est pas passé en parametre on calcule avec toute les composantes
+	//Si le tableau n'est pas passé en parametre on calcule avec toutes les composantes
 	public float calcDist(Data studiedData)
 	{
 		int[] tab = new int[6];

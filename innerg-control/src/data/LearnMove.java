@@ -19,15 +19,16 @@ public class LearnMove {
 	private int nbDatas; //Le nombre de mouvements utilisés dans la moyenne
 	private String filepath; //Chemin d'enregistrement
 	
-	private final int nbLearning = 20; //Nombre de mouvement avant arret appren.
+	private final int nbLearning = 8; //Nombre de mouvement avant arret appren.
 	
-	public static final float THRESHOLD_VALID = 10; //AU PIF, seuil a partir duquel un point d'appren est considérer comme une singularité non valide
+	public static final float THRESHOLD_VALID = 15; //AU PIF, seuil a partir duquel un point d'appren est considérer comme une singularité non valide
 
 	public LearnMove(String filepath) {
 		super();
 		this.currentMove = new Move();
 		this.nbDatas=0;
 		this.filepath = filepath;
+		
 	}
 	
 	public boolean rebootCur(){
@@ -53,8 +54,9 @@ public class LearnMove {
 	//Une fois que le nouveau mouv. d'appren. est terminé on actualise la moyenne
 	public void recalcMeanData()
 	{
+		if(true) System.out.println("On recalcule le mouvement moyen - ndata="+nbDatas);
 		int curSize = currentMove.getMove().size();
-		int meanSize = meanMove.getMove().size();
+
 		
 		//Si c'est le premier mouvement 
 		if(nbDatas == 0){
@@ -63,14 +65,14 @@ public class LearnMove {
 		}
 		else
 		{
-			
+			int meanSize = meanMove.getMove().size();
 			//On vérifie que ce mouvement n'est pas une singularité
 			if(currentMove.calcDist(meanMove)<THRESHOLD_VALID)
 			{
 				boolean toolong = false;
 				int max = Math.max(meanSize, curSize);
 				int min = Math.min(meanSize, curSize);
-				
+		
 				//Si le nouveau mouvement d'appren. est plus long que le moyen
 				if(meanSize==min) toolong = true;
 				

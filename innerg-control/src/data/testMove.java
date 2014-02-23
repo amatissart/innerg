@@ -10,12 +10,15 @@ public class testMove {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		StaticComparator sc = new StaticComparator();
+		//StaticComparator sc = new StaticComparator();
 		
-		Move move = new Move();
-		move.initialise("innerg/moves/movetest.txt");
+		//Move move = new Move();
+		//move.initialise("innerg/moves/movetest.txt");
 		
-		System.out.println(sc.getBestMove(move, 10));
+		//System.out.println(sc.getBestMove(move, 10));
+		
+		TestAppr ta = new TestAppr();
+		ta.simuConnect();
 
 	}
 

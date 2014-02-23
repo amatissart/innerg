@@ -23,12 +23,19 @@ public class Move {
 	private ArrayList<Data> move;
 	private int moveID;
 	private String moveName;
+	private final int[] params; //Parametres a etudier pour calculer la distance
+
 
 	public Move(ArrayList<Data> move, int moveID, String moveName) {
 		super();
 		this.move = new ArrayList<Data>(move);
 		this.moveID = moveID;
 		this.moveName = moveName;
+		this.params=new int[3];
+		
+		params[0]=1;
+		params[1]=2;
+		params[2]=3;
 	}
 	
 	public Move() {
@@ -36,6 +43,11 @@ public class Move {
 		this.move = new ArrayList<Data>();
 		this.moveID = 0;
 		this.moveName = "Untitled";
+		this.params=new int[3];
+		
+		params[0]=1;
+		params[1]=2;
+		params[2]=3;
 	}
 
 	public ArrayList<Data> getMove() {
@@ -135,7 +147,7 @@ public class Move {
 		
 		for(int i = 0;i<min;i++)
 		{
-			dist+=move.get(i).calcDist(studiedMove.getMove().get(i));
+			dist+=move.get(i).calcDist(studiedMove.getMove().get(i),params);
 			if(DEV_MODE) System.out.println("Move : distance a l'etape "+i+" = "+dist);
 			
 		}
@@ -165,6 +177,8 @@ public class Move {
 
 		
 		dist = dist/max;
+		
+		if(true) System.out.println("Move : distance = "+dist);
 		
 		return dist;
 		

@@ -14,10 +14,11 @@ public class Processing implements ProcessingInterface {
 	private int mode; //Le mode en cour, aprentissage(0), analyse statique (1)
 	private StaticComparator sc;
 	private LearnMove lm;
+	private final int[] params; //Parametres a etudier pour l'amplitude
 	
-	public static final float AMP_MIN = 10; //AU PIF !
+	public static final float AMP_MIN = 2; //AU PIF !
 	public static final int MAX_OFFCOUNT = 4; //AU PIF !
-	public static final int _THRESHOLD = 10; //AU PIF !
+	public static final int _THRESHOLD = 15; //AU PIF !
 	
 	
 	public Processing() {
@@ -28,19 +29,32 @@ public class Processing implements ProcessingInterface {
 		this.offCount = 0;
 		this.deltas = new float[6];
 		this.sc=new StaticComparator();
-		this.lm = new LearnMove("le chemin");
+		this.lm = new LearnMove("innerg/moves/movelearn.txt");
 		this.mode = 1;
+		this.params = new int[3];
 		
 		//Au pif : A REGLER - Pas utilisé pour l'instant
-		deltas[1]=10; //aX
+		deltas[0]=10;//aX
+		deltas[1]=10; 
 		deltas[2]=10;
-		deltas[3]=10;
-		deltas[4]=10; //oX
+		deltas[3]=10;//oX
+		deltas[4]=10; 
 		deltas[5]=10;
-		deltas[6]=10;
+		
+		params[0]=1;
+		params[1]=2;
+		params[2]=3;
+
 		
 	}
 	
+	
+	public void setMode(int mode) {
+		this.mode = mode;
+	}
+
+
+
 	public void update(Float[] acc, Float[] ori) {
 		
 		if(!block)
@@ -55,7 +69,8 @@ public class Processing implements ProcessingInterface {
 			
 			Data data = new Data(acc[0],acc[1],acc[2],ori[0],ori[1],ori[2]);
 			
-			float amp = data.getAmp();
+			float amp = data.getAmp(params);
+			
 			
 			//Si l'entree est faible
 			if(amp < AMP_MIN)
@@ -70,14 +85,19 @@ public class Processing implements ProcessingInterface {
 						if(mode == 0)
 						{
 							lm.recalcMeanData();
-							if(!lm.rebootCur()) //Si l'apprentissage est terminé on bloque la fonction
+							if(!lm.rebootCur()){
+								//Si l'apprentissage est terminé on bloque la fonction
 								block=true;
+							}
+								
 						}
 						//Si on etait en analyse
-						else if(mode == 0)
+						else if(mode == 1)
 						{
 							//On compare ce mouvement 
 							int id = sc.getBestMove(move,_THRESHOLD);
+							
+							if(true) System.out.println("Le mouvement est le numéro "+id);
 							
 							/**
 							 * ET LA ON FAIT UN TRUC EN FONCTION DE LA REPONSE

@@ -22,15 +22,12 @@ public class StaticComparator {
 		
 		movesDatabase = new ArrayList<Move>();
 		Move myMove1 = new Move();
-		myMove1.initialise("innerg/moves/move1.txt");
+		myMove1.initialise("innerg/moves/movelearn.txt");
 		myMove1.setMoveID(1);
-		
-		Move myMove2 = new Move();
-		myMove2.initialise("innerg/moves/move2.txt");
-		myMove2.setMoveID(2);
+		myMove1.setMoveName("Activation");
+
 		
 		movesDatabase.add(myMove1);
-		movesDatabase.add(myMove2);
 	}
 	
 	//Fonction retournant l'id du mouvement le plus proche ou -1 s l'écart est > seuil
