@@ -37,14 +37,34 @@ public class Stream {
 	public String start(){
 		
 		try {
-			CommPortIdentifier commPortIdentifier = CommPortIdentifier.getPortIdentifier(port);
-			serialPort = (SerialPort) commPortIdentifier.open("Test", 2000);
-			portInputStream = new BufferedInputStream(serialPort.getInputStream());
-	
-			in = new BufferedReader(new InputStreamReader(portInputStream));
-			in.readLine();
+			String ligne;
+			boolean serialPortOk = false;
+			String[] cmd = {"/bin/sh", "-c"," sdptool browse local "};
+
+			Process p =	Runtime.getRuntime().exec(cmd);
+			InputStreamReader isr = new InputStreamReader(p.getInputStream());
+
+			in = new BufferedReader(isr);
+			while((ligne = in.readLine()) != null){
+				if(ligne.contains("Serial Port"){
+					serialPortOk = true;
+					break;
+				}
+			}
+					
+			in.close();
 			
-			return "";
+			if(serialPortOk){
+				CommPortIdentifier commPortIdentifier = CommPortIdentifier.getPortIdentifier(port);
+				serialPort = (SerialPort) commPortIdentifier.open("Test", 2000);
+				portInputStream = new BufferedInputStream(serialPort.getInputStream());
+		
+				in = new BufferedReader(new InputStreamReader(portInputStream));
+				in.readLine();
+				
+				return "";
+			}
+			else return "No serial port !";
 			
 		} catch (NoSuchPortException e) {
 			e.printStackTrace();
