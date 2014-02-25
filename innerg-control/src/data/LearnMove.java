@@ -5,8 +5,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
- * Cet objet est crée quand on veut apprendre un nouveau mouvement. Il faut lui communiquer chaque 
- * nouveau paquet (Data) et lui indiquer quand le mouveau est terminé afin qu'il mette à jour le mouvement
+ * Cet objet est crÃ©e quand on veut apprendre un nouveau mouvement. Il faut lui communiquer chaque 
+ * nouveau paquet (Data) et lui indiquer quand le nouveau est terminÃ© afin qu'il mette Ã  jour le mouvement
  * moyen.
  **/
 
@@ -15,13 +15,13 @@ import java.util.ArrayList;
 public class LearnMove {
 	
 	private Move currentMove; //Contient un mouvement en cour d'apprentissage
-	private Move meanMove; //Contient les données moyennes
-	private int nbDatas; //Le nombre de mouvements utilisés dans la moyenne
+	private Move meanMove; //Contient les donnÃ©es moyennes
+	private int nbDatas; //Le nombre de mouvements utilisÃ©s dans la moyenne
 	private String filepath; //Chemin d'enregistrement
 	
-	private final int nbLearning = 8; //Nombre de mouvement avant arret appren.
+	private final int nbLearning = 5; //Nombre de mouvement avant arret appren.
 	
-	private final float THRESHOLD_VALID = 5; //AU PIF, seuil a partir duquel un point d'appren est considérer comme une singularité non valide
+	private final float THRESHOLD_VALID = 4; //AU PIF, seuil a partir duquel un point d'appren est considÃ©rer comme une singularitÃ© non valide
 
 	public LearnMove(String filepath) {
 		super();
@@ -45,13 +45,13 @@ public class LearnMove {
 			return true;
 	}
 	
-	// Ajouter un point à la currentdatas
+	// Ajouter un point ï¿½ la currentdatas
 	public void pushNewData(Data data)
 	{
 		currentMove.getMove().add(data);
 	}
 	
-	//Une fois que le nouveau mouv. d'appren. est terminé on actualise la moyenne
+	//Une fois que le nouveau mouv. d'appren. est terminÃ© on actualise la moyenne
 	public void recalcMeanData()
 	{
 		if(true) System.out.println("On recalcule le mouvement moyen - ndata="+nbDatas);
@@ -66,7 +66,7 @@ public class LearnMove {
 		else
 		{
 			int meanSize = meanMove.getMove().size();
-			//On vérifie que ce mouvement n'est pas une singularité
+			//On vï¿½rifie que ce mouvement n'est pas une singularitÃ©
 			if(currentMove.calcDist(meanMove)<THRESHOLD_VALID)
 			{
 				boolean toolong = false;
@@ -83,7 +83,7 @@ public class LearnMove {
 				
 				Data nulData = new Data();
 	
-				//Si toolong = true on ajoute les valeurs (pondérées avec des zeros);
+				//Si toolong = true on ajoute les valeurs (pondÃ©rÃ©es avec des zeros);
 				if(toolong)
 				{
 					for(int j = min;j<max;j++)
@@ -103,7 +103,7 @@ public class LearnMove {
 				}
 				
 				nbDatas++;
-				//On a ajouté une nouvelle donnée a notre mouvement moyen
+				//On a ajoutï¿½ une nouvelle donnï¿½e a notre mouvement moyen
 				
 			}
 			

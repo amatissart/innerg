@@ -46,7 +46,7 @@ public class Stream {
 
 			in = new BufferedReader(isr);
 			while((ligne = in.readLine()) != null){
-				if(ligne.contains("Serial Port"){
+				if(ligne.contains("Serial Port")){
 					serialPortOk = true;
 					break;
 				}
@@ -82,22 +82,30 @@ public class Stream {
 			String[] fig;
 			Float[] val = new Float[6];
 						
-			while (in.ready()){
-				temp=in.readLine();
+			try {
+				while (in.ready()){
+					temp=in.readLine();
+					
+					if (temp != null){
+						fig=temp.split(";"); // Les 6 valeurs reçues sur une ligne sont séparées par un point-virgule
+						
+						for(int i=0;i<6;i++){
+							val[i]=Float.valueOf(fig[i]);
+						}
+						
+						setAcc (Arrays.copyOfRange(val, 0, 3));
+						setOri (Arrays.copyOfRange(val, 3, 6));	
+						
+						proc.update(acc,ori);  // C'est ici que le traitement est lancé, lorsque les valeurs sont reçues		
+					}
+				}
+			} catch (Exception e) {
+				System.err.println(temp);
+				e.printStackTrace();
 			}
 			
-			if (temp != null){
-				fig=temp.split(";");		   // Les 6 valeurs reçues sur une ligne sont séparées par un point-virgule
-				
-				for(int i=0;i<6;i++){
-					val[i]=Float.valueOf(fig[i]);
-				}
-				
-				setAcc (Arrays.copyOfRange(val, 0, 3));
-				setOri (Arrays.copyOfRange(val, 3, 6));	
-				
-				proc.update(acc,ori);  // C'est ici que le traitement est lancé, lorsque les valeurs sont reçues		
-			}
+			
+		
 	}
 
 	public Float[] getOri() {

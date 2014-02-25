@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 /**
  * Cette classe est la structure d'un mouvement, soit une liste de Data.
- * Elle a en attribut un id et un nom qui caractérise le mouvement.
+ * Elle a en attribut un id et un nom qui caractï¿½rise le mouvement.
  * Une methode permet de calculer l'ecart avec un autre mouvement
- * Une methode permet d'initialiser le mouvement à partir d'un fichier texte
+ * Une methode permet d'initialiser le mouvement ï¿½ partir d'un fichier texte
  * Une autre methode permet d'enregistrer le mouvement dans un fichier texte
  **/
 
@@ -31,12 +31,12 @@ public class Move {
 		this.move = new ArrayList<Data>(move);
 		this.moveID = moveID;
 		this.moveName = moveName;
-		this.params=new int[3];
+		this.params=new int[1];
 		
 		//On etudie que le gyroscope
-		params[0]=1;
-		params[1]=2;
-		params[2]=3;
+		params[0]=2;
+	//	params[1]=2;
+	//	params[2]=3;
 	}
 	
 	public Move() {
@@ -44,11 +44,11 @@ public class Move {
 		this.move = new ArrayList<Data>();
 		this.moveID = 0;
 		this.moveName = "Untitled";
-		this.params=new int[3];
+		this.params=new int[1];
 		
-		params[0]=1;
-		params[1]=2;
-		params[2]=3;
+		params[0]=2;
+	//	params[1]=2;
+	//	params[2]=3;
 	}
 
 	public ArrayList<Data> getMove() {
@@ -75,8 +75,8 @@ public class Move {
 		this.moveName = moveName;
 	}
 	
-	//Initialise un mouvement à partir d'un fichier
-	//!!!! Cette fonction contient le nombre de parametres (6) a changer si nouvelles données (giro, gps etc...)
+	//Initialise un mouvement ï¿½ partir d'un fichier
+	//!!!! Cette fonction contient le nombre de parametres (6) a changer si nouvelles donnï¿½es (giro, gps etc...)
 	
 	public void initialise(String filepath)
 	{
@@ -123,7 +123,7 @@ public class Move {
 	        out.print(move.get(i).getoY() + ";");
 	        out.println(move.get(i).getoZ() + ";");
 	      }
-	      if(true) System.out.println("Move : Fichier sauvegardé !");
+	      if(true) System.out.println("Move : Fichier sauvegardï¿½ !");
 	      out.close();
 	    }
 	    catch(Exception e){
@@ -164,7 +164,6 @@ public class Move {
 			}
 			
 		}
-		
 		else
 		{
 			
@@ -179,7 +178,8 @@ public class Move {
 		
 		dist = dist/max;
 		
-		if(DEV_MODE) System.out.println("Move : distance = "+dist);
+//		if(DEV_MODE) 
+			System.out.println("Move : distance = "+dist);
 		
 		return dist;
 		

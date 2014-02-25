@@ -4,7 +4,9 @@ import gui.Window;
 
 public class Main {
 	
-	public static final boolean GuiTest = true; // Si vrai, le programme lance l'interface graphique de test
+ 	public static final String MOVES_DIR = "innerg/moves";  
+	
+	public static final boolean GuiTest = false; // Si vrai, le programme lance l'interface graphique de test
 	public static final boolean Switch = false;  // Commande ou non des interrupteurs via RaspberryPi
 
 	public static void main(String[] args) {
@@ -17,7 +19,8 @@ public class Main {
 		// Squelette de base permettant de traiter les données
 			
 			// La classe ProcessingExample décrit le traitement des données, via la méthode "update" qu'elle implemente
-			ProcessingInterface proc = new ProcessingExample();
+			Processing proc = new Processing();
+			proc.setMode(1);
 			
 			// Initialise la connection Bluetooth
 			Stream stream = new Stream();  
@@ -30,7 +33,7 @@ public class Main {
 			
 			// Pour le test, on arrête au bout de 10 secondes.
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(120000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} 

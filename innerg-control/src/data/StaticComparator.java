@@ -3,8 +3,8 @@ package data;
 import java.util.ArrayList;
 
 /**
- * Cette objet contient a sa creation la base de données des mouvements. Une methode retourne
- * l'id du mouvement le plus proche passé en entrée (ou -1 si le mouvement est "trop loin")
+ * Cette objet contient a sa creation la base de donnï¿½es des mouvements. Une methode retourne
+ * l'id du mouvement le plus proche passï¿½ en entrï¿½e (ou -1 si le mouvement est "trop loin")
  * @author Nicolas
  *
  */
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class StaticComparator {
 	
 	private final boolean DEV_MODE = true;
-	private final int _THRESHOLD = 5; // Seuil d'acceptation d'un mouvement, a regler
+	private final int _THRESHOLD = 2; // Seuil d'acceptation d'un mouvement, a regler
 	
 	private ArrayList<Move> movesDatabase;
 
@@ -23,7 +23,7 @@ public class StaticComparator {
 		
 		movesDatabase = new ArrayList<Move>();
 		Move myMove1 = new Move();
-		myMove1.initialise("innerg/moves/movelearn.txt");
+		myMove1.initialise(Main.MOVES_DIR+"/movelearn.txt");
 		myMove1.setMoveID(1);
 		myMove1.setMoveName("Activation");
 
@@ -31,7 +31,7 @@ public class StaticComparator {
 		movesDatabase.add(myMove1);
 	}
 	
-	//Fonction retournant l'id du mouvement le plus proche ou -1 s l'écart est > seuil
+	//Fonction retournant l'id du mouvement le plus proche ou -1 s l'ï¿½cart est > seuil
 	
 	public int getBestMove(Move moveStudied)
 	{
@@ -45,7 +45,7 @@ public class StaticComparator {
 			
 			if(DEV_MODE) System.out.println("La distance au mvt "+movesDatabase.get(i).getMoveID()+" est de : "+newDist);
 			
-			//Si la distance est plus petite que le seuil et minimale on actualise les données
+			//Si la distance est plus petite que le seuil et minimale on actualise les donnï¿½es
 			if(newDist<_THRESHOLD && newDist<minDist)
 			{
 				id = movesDatabase.get(i).getMoveID();

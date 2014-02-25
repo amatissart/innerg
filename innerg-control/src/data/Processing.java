@@ -1,22 +1,22 @@
 package data;
 /**
- * Cette classe determinera à partir de quand un mouvement commence ou s'arrete
+ * Cette classe determinera Ã  partir de quand un mouvement commence ou s'arrete
  * @author Nicolas
  *
  */
 public class Processing implements ProcessingInterface {
 	
 	private Move move;
-	private boolean isOn; //Détermine si un processus (appretissage, detection est en cour
+	private boolean isOn; //DÃ©termine si un processus (appretissage, detection est en cour
 	private boolean block; //Bloque l'execution de update
-	private int offCount; //Compte le nombre d'itération sans mouvement (a un delta pres)
+	private int offCount; //Compte le nombre d'itÃ©ration sans mouvement (a un delta pres)
 	private int mode; //Le mode en cour, aprentissage(0), analyse statique (1)
 	private StaticComparator sc;
 	private LearnMove lm;
 	private final int[] params; //Parametres a etudier pour l'amplitude
 	
 	public static final float AMP_MIN = 2; //AU PIF !
-	public static final int MAX_OFFCOUNT = 4; //AU PIF !
+	public static final int MAX_OFFCOUNT = 20; //AU PIF !
 	
 	
 	public Processing() {
@@ -26,11 +26,11 @@ public class Processing implements ProcessingInterface {
 		this.block = false;
 		this.offCount = 0;
 		this.sc=new StaticComparator();
-		this.lm = new LearnMove("innerg/moves/movelearn.txt");
+		this.lm = new LearnMove(Main.MOVES_DIR+"/movelearn.txt");
 		this.mode = 1;
 		this.params = new int[3];
 		
-		//On ne calcule les distance/amplitude qu'en fonction du gyro
+		//On ne calcule les amplitude qu'en fonction du gyro
 		params[0]=1;
 		params[1]=2;
 		params[2]=3;
@@ -50,10 +50,10 @@ public class Processing implements ProcessingInterface {
 		if(!block)
 		{
 			/*
-			 * On verifie d'abort "l'amplitude" des données recues. Si cette amplitude est trop faible,
-			 * on verifie tout de meme que ce point n'est pas une singularité d'un mouvement.Autrement dit,
+			 * On verifie d'abort "l'amplitude" des donnÃ©es recues. Si cette amplitude est trop faible,
+			 * on verifie tout de meme que ce point n'est pas une singularitÃ© d'un mouvement.Autrement dit,
 			 * il est possible qu'au cours d'un mvt, un point est une amplitude faible ce qui ne signifie pas
-			 * que le mouvement est terminé. On incremente donc une varible offCount qui mesure le nombre de fois
+			 * que le mouvement est terminÃ©. On incremente donc une varible offCount qui mesure le nombre de fois
 			 * que l'entree est "nulle" consecutivement.
 			 */
 			
@@ -76,7 +76,7 @@ public class Processing implements ProcessingInterface {
 						{
 							lm.recalcMeanData();
 							if(!lm.rebootCur()){
-								//Si l'apprentissage est terminé on bloque la fonction
+								//Si l'apprentissage est terminÃ© on bloque la fonction
 								block=true;
 							}
 								
@@ -87,7 +87,7 @@ public class Processing implements ProcessingInterface {
 							//On compare ce mouvement 
 							int id = sc.getBestMove(move);
 							
-							if(true) System.out.println("Le mouvement est le numéro "+id);
+							if(true) System.out.println("Le mouvement est le numero "+id);
 							
 							/**
 							 * ET LA ON FAIT UN TRUC EN FONCTION DE LA REPONSE
@@ -99,7 +99,7 @@ public class Processing implements ProcessingInterface {
 						
 						isOn =false;
 					}
-					else //On continue d'enregistrer les données
+					else //On continue d'enregistrer les donnï¿½es
 					{
 						//Si on etait en apprentissage
 						if(mode == 0)
@@ -114,7 +114,7 @@ public class Processing implements ProcessingInterface {
 				}
 				//Sinon on laisse passer ce point
 				offCount++;
-					
+			//	if(offCount < 30) System.out.println(offCount);	
 			}
 			else //L'amplitude est suffisante
 			{
