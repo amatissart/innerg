@@ -44,7 +44,7 @@ public class GPIO extends Device {
 
 	public boolean digitalWrite(int channel, boolean value) {
 		String res = this.sendRequest("POST", "/" + channel + "/value/" + (value ? "1" : "0"));
-		if (res.equals("1")) {
+		if (res.startsWith("1")) {
 			return true;
 		}
 		return false;

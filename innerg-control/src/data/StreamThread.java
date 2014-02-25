@@ -13,10 +13,13 @@ public class StreamThread extends Thread {
 	}
 	
 	public void run() {
+		long time;
+		
 		try {
 			while(!isInterrupted()){
+				time = System.currentTimeMillis();
 				stream.newLine(proc);
-				Thread.sleep(20);
+				Thread.sleep(Math.max(0, 10-System.currentTimeMillis()+time));
 			}
 			stream.close();
 		} catch (IOException e) {

@@ -67,7 +67,6 @@ public class Stream {
 			}
 			
 			if (temp != null){
-				temp = temp.replace(',','.');  // L'application Android utilise (à tort) des virgules en tant que séparateur décimal
 				fig=temp.split(";");		   // Les 6 valeurs reçues sur une ligne sont séparées par un point-virgule
 				
 				for(int i=0;i<6;i++){
