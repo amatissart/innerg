@@ -102,6 +102,7 @@ public class Stream {
 			} catch (Exception e) {
 				System.err.println(temp);
 				e.printStackTrace();
+				System.exit(-1);
 			}
 			
 			
@@ -124,6 +125,5 @@ public class Stream {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 }

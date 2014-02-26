@@ -64,7 +64,7 @@ public class TestAppr {
 		Float[] ori = new Float[3];
 		
 		
-		Processing proc = new Processing();
+		Processing proc = new Processing(null);
 		
 		proc.setMode(0);
 		

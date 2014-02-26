@@ -45,7 +45,7 @@ public class LearnMove {
 			return true;
 	}
 	
-	// Ajouter un point � la currentdatas
+	// Ajouter un point à la currentdatas
 	public void pushNewData(Data data)
 	{
 		currentMove.getMove().add(data);
@@ -66,7 +66,7 @@ public class LearnMove {
 		else
 		{
 			int meanSize = meanMove.getMove().size();
-			//On v�rifie que ce mouvement n'est pas une singularité
+			//On vérifie que ce mouvement n'est pas une singularité
 			if(currentMove.calcDist(meanMove)<THRESHOLD_VALID)
 			{
 				boolean toolong = false;

@@ -19,7 +19,7 @@ public class StreamThread extends Thread {
 			while(!isInterrupted()){
 				time = System.currentTimeMillis();
 				stream.newLine(proc);
-				Thread.sleep(Math.max(0, 10-System.currentTimeMillis()+time));
+				Thread.sleep(Math.max(0, 30-System.currentTimeMillis()+time));
 			}
 			stream.close();
 		} catch (IOException e) {

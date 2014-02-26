@@ -1,4 +1,8 @@
 package data;
+
+import gpioClient.GpioControl;
+import gui.Window;
+
 /**
  * Cette classe determinera à partir de quand un mouvement commence ou s'arrete
  * @author Nicolas
@@ -15,11 +19,14 @@ public class Processing implements ProcessingInterface {
 	private LearnMove lm;
 	private final int[] params; //Parametres a etudier pour l'amplitude
 	
-	public static final float AMP_MIN = 2; //AU PIF !
+	private GpioControl gpio;
+	
+	public static final float AMP_MIN = 1; //AU PIF !
 	public static final int MAX_OFFCOUNT = 20; //AU PIF !
 	
+	private Window window;
 	
-	public Processing() {
+	public Processing(GpioControl gpio) {
 		super();
 		this.move = new Move();
 		this.isOn = false;
@@ -29,13 +36,14 @@ public class Processing implements ProcessingInterface {
 		this.lm = new LearnMove(Main.MOVES_DIR+"/movelearn.txt");
 		this.mode = 1;
 		this.params = new int[3];
+		this.gpio = gpio;
+		
 		
 		//On ne calcule les amplitude qu'en fonction du gyro
 		params[0]=1;
 		params[1]=2;
 		params[2]=3;
-
-		
+	
 	}
 	
 	
@@ -84,14 +92,13 @@ public class Processing implements ProcessingInterface {
 						//Si on etait en analyse
 						else if(mode == 1)
 						{
+							if(Main.GuiTest) window.drawMove(move);
+							
 							//On compare ce mouvement 
 							int id = sc.getBestMove(move);
+							System.out.println("Le mouvement est le numero "+id);
 							
-							if(true) System.out.println("Le mouvement est le numero "+id);
-							
-							/**
-							 * ET LA ON FAIT UN TRUC EN FONCTION DE LA REPONSE
-							 */
+							if(Main.Switch && id==1) gpio.toggle(1);
 							
 							//On reinitialise move;
 							move = new Move();
@@ -99,7 +106,7 @@ public class Processing implements ProcessingInterface {
 						
 						isOn =false;
 					}
-					else //On continue d'enregistrer les donn�es
+					else //On continue d'enregistrer les données
 					{
 						//Si on etait en apprentissage
 						if(mode == 0)
@@ -134,6 +141,13 @@ public class Processing implements ProcessingInterface {
 			}
 				
 		}
+	}
+
+
+	@Override
+	public void setWindow(Window w) {
+		window = w;
+		w.setMovesBase(sc.getMovesBase());	
 	}
 
 }

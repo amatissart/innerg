@@ -1,4 +1,5 @@
 package data;
+import gpioClient.GpioControl;
 import gui.Window;
 
 
@@ -6,20 +7,27 @@ public class Main {
 	
  	public static final String MOVES_DIR = "innerg/moves";  
 	
-	public static final boolean GuiTest = false; // Si vrai, le programme lance l'interface graphique de test
+	public static final boolean GuiTest = true; // Si vrai, le programme lance l'interface graphique de test
 	public static final boolean Switch = false;  // Commande ou non des interrupteurs via RaspberryPi
 
 	public static void main(String[] args) {
 		
+		GpioControl gpio = null;
+		
+		if(Main.Switch)
+			gpio = new GpioControl();
+		
 		if (GuiTest){
-			new Window();
+			Processing proc = new Processing(gpio);
+			proc.setMode(1);
+			new Window(proc);
 		}
 		else {
 			
 		// Squelette de base permettant de traiter les données
 			
 			// La classe ProcessingExample décrit le traitement des données, via la méthode "update" qu'elle implemente
-			Processing proc = new Processing();
+			Processing proc = new Processing(null);
 			proc.setMode(1);
 			
 			// Initialise la connection Bluetooth
@@ -39,8 +47,7 @@ public class Main {
 			} 
 			
 			thread.interrupt();
-			stream.close();
-			
+			stream.close();	
 		}
 
 	}
