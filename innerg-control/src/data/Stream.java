@@ -86,7 +86,7 @@ public class Stream {
 				while (in.ready()){
 					temp=in.readLine();
 					
-					if (temp != null){
+					if (temp != null && !temp.isEmpty()){
 						fig=temp.split(";"); // Les 6 valeurs reçues sur une ligne sont séparées par un point-virgule
 						
 						for(int i=0;i<6;i++){

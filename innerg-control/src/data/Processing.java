@@ -19,14 +19,14 @@ public class Processing implements ProcessingInterface {
 	private LearnMove lm;
 	private final int[] params; //Parametres a etudier pour l'amplitude
 	
-	private GpioControl gpio;
+	private ItemsList items = null;
 	
 	public static final float AMP_MIN = 1; //AU PIF !
 	public static final int MAX_OFFCOUNT = 20; //AU PIF !
 	
 	private Window window;
 	
-	public Processing(GpioControl gpio) {
+	public Processing() {
 		super();
 		this.move = new Move();
 		this.isOn = false;
@@ -36,9 +36,10 @@ public class Processing implements ProcessingInterface {
 		this.lm = new LearnMove(Main.MOVES_DIR+"/movelearn.txt");
 		this.mode = 1;
 		this.params = new int[3];
-		this.gpio = gpio;
 		
-		
+		if(Main.ElectricSwitch)
+			this.items = new ItemsList(new GpioControl());
+			
 		//On ne calcule les amplitude qu'en fonction du gyro
 		params[0]=1;
 		params[1]=2;
@@ -98,7 +99,9 @@ public class Processing implements ProcessingInterface {
 							int id = sc.getBestMove(move);
 							System.out.println("Le mouvement est le numero "+id);
 							
-							if(Main.Switch && id==1) gpio.toggle(1);
+							// Commande des objets, selon le mouvement effectué
+							if(items!=null && id==1) 
+								items.itemToItemMove(move);
 							
 							//On reinitialise move;
 							move = new Move();
