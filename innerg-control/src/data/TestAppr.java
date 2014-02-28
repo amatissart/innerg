@@ -21,7 +21,7 @@ public class TestAppr {
 	public TestAppr() {
 		super();
 		this.longmove = new Move();
-		read("innerg/moves/apprmove.txt");
+		read("innerg/moves/multimoves.txt");
 	}
 
 
@@ -66,7 +66,7 @@ public class TestAppr {
 		
 		Processing proc = new Processing();
 		
-		proc.setMode(0);
+		proc.setMode(1);
 		
 		while(count<size)
 		{
@@ -78,6 +78,8 @@ public class TestAppr {
 			ori[2] = longmove.getMove().get(count).getoZ();
 			
 			proc.update(acc, ori);
+			
+			System.out.print(count+16);
 			
 			count++;
 			

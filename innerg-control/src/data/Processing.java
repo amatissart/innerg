@@ -15,7 +15,7 @@ public class Processing implements ProcessingInterface {
 	private LearnMove lm;
 	private final int[] params; //Parametres a etudier pour l'amplitude
 	
-	public static final float AMP_MIN = 2; //AU PIF !
+	public static final float AMP_MIN = 3; //AU PIF !
 	public static final int MAX_OFFCOUNT = 4; //AU PIF !
 	
 	
@@ -120,7 +120,11 @@ public class Processing implements ProcessingInterface {
 			{
 				offCount = 0;
 				//Si c'est pas deja fait on lance le process
-				isOn = true;
+				if(!isOn)
+				{
+					isOn= true;
+					System.out.println("Debut d'analyse");
+				}
 				
 				//Si on etait en apprentissage
 				if(mode == 0)
