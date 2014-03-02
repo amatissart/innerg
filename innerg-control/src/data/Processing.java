@@ -100,8 +100,10 @@ public class Processing implements ProcessingInterface {
 							System.out.println("Le mouvement est le numero "+id);
 							
 							// Commande des objets, selon le mouvement effectué
-							if(items!=null && id==1) 
-								items.itemToItemMove(move);
+							// L'appel suivant prend en paramètre 2 mvmts : mvmt déclencheur et mvmt de transition 
+								
+								// items.itemToItemMove(move1,move2);
+							
 							
 							//On reinitialise move;
 							move = new Move();

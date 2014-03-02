@@ -30,6 +30,10 @@ public class ItemsList {
 		// A compléter : recherche des objets correspondants aux objets;
 	}
 	
+	public void itemToItemMove(Move move1,Move move2) {
+		
+	}
+	
 	
 	
 	
