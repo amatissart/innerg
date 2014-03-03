@@ -22,7 +22,8 @@ public class StaticComparator {
 		
 		movesDatabase = new ArrayList<Move>();
 		Move myMove1 = new Move();
-		myMove1.initialise(Main.MOVES_DIR+"/movelearn.txt");
+	//	myMove1.initialise(Main.MOVES_DIR+"/movelearn.txt");
+		myMove1.initialise(Main.MOVES_DIR+"/left1.txt");
 		myMove1.setMoveID(1);
 		myMove1.setMoveName("Activation");
 

@@ -22,7 +22,7 @@ public class Main {
 			
 			// La classe ProcessingExample décrit le traitement des données, via la méthode "update" qu'elle implemente
 			Processing proc = new Processing();
-			proc.setMode(1);
+			proc.setMode(0);
 			
 			// Initialise la connection Bluetooth
 			Stream stream = new Stream();  

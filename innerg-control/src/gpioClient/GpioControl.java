@@ -7,7 +7,7 @@ public class GpioControl {
 	
 	public final static int nbPlugs = 4;
 	
-	private int[] pins = {2,3,4,17};
+	private int[] pins = {17,4,3,2};
 	private NativeGPIO gpio;
 	
 	

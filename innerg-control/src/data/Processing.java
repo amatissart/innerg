@@ -21,8 +21,8 @@ public class Processing implements ProcessingInterface {
 	
 	private ItemsList items = null;
 	
-	public static final float AMP_MIN = 1; //AU PIF !
-	public static final int MAX_OFFCOUNT = 20; //AU PIF !
+	public static final float AMP_MIN = 2; 
+	public static final int MAX_OFFCOUNT = 12; 
 	
 	private Window window;
 	
@@ -33,7 +33,7 @@ public class Processing implements ProcessingInterface {
 		this.block = false;
 		this.offCount = 0;
 		this.sc=new StaticComparator();
-		this.lm = new LearnMove(Main.MOVES_DIR+"/movelearn.txt");
+		this.lm = new LearnMove(Main.MOVES_DIR+"/left1.txt");
 		this.mode = 1;
 		this.params = new int[3];
 		
@@ -102,7 +102,8 @@ public class Processing implements ProcessingInterface {
 							// Commande des objets, selon le mouvement effectué
 							// L'appel suivant prend en paramètre 2 mvmts : mvmt déclencheur et mvmt de transition 
 								
-								// items.itemToItemMove(move1,move2);
+							if(items!=null)
+								items.itemToItemMove(null,move);
 							
 							
 							//On reinitialise move;
