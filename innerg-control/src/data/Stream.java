@@ -37,14 +37,34 @@ public class Stream {
 	public String start(){
 		
 		try {
-			CommPortIdentifier commPortIdentifier = CommPortIdentifier.getPortIdentifier(port);
-			serialPort = (SerialPort) commPortIdentifier.open("Test", 2000);
-			portInputStream = new BufferedInputStream(serialPort.getInputStream());
-	
-			in = new BufferedReader(new InputStreamReader(portInputStream));
-			in.readLine();
+			String ligne;
+			boolean serialPortOk = false;
+			String[] cmd = {"/bin/sh", "-c"," sdptool browse local "};
+
+			Process p =	Runtime.getRuntime().exec(cmd);
+			InputStreamReader isr = new InputStreamReader(p.getInputStream());
+
+			in = new BufferedReader(isr);
+			while((ligne = in.readLine()) != null){
+				if(ligne.contains("Serial Port")){
+					serialPortOk = true;
+					break;
+				}
+			}
+					
+			in.close();
 			
-			return "";
+			if(serialPortOk){
+				CommPortIdentifier commPortIdentifier = CommPortIdentifier.getPortIdentifier(port);
+				serialPort = (SerialPort) commPortIdentifier.open("Test", 2000);
+				portInputStream = new BufferedInputStream(serialPort.getInputStream());
+		
+				in = new BufferedReader(new InputStreamReader(portInputStream));
+				in.readLine();
+				
+				return "";
+			}
+			else return "No serial port !";
 			
 		} catch (NoSuchPortException e) {
 			e.printStackTrace();
@@ -62,23 +82,31 @@ public class Stream {
 			String[] fig;
 			Float[] val = new Float[6];
 						
-			while (in.ready()){
-				temp=in.readLine();
+			try {
+				while (in.ready()){
+					temp=in.readLine();
+					
+					if (temp != null && !temp.isEmpty()){
+						fig=temp.split(";"); // Les 6 valeurs reçues sur une ligne sont séparées par un point-virgule
+						
+						for(int i=0;i<6;i++){
+							val[i]=Float.valueOf(fig[i]);
+						}
+						
+						setAcc (Arrays.copyOfRange(val, 0, 3));
+						setOri (Arrays.copyOfRange(val, 3, 6));	
+						
+						proc.update(acc,ori);  // C'est ici que le traitement est lancé, lorsque les valeurs sont reçues		
+					}
+				}
+			} catch (Exception e) {
+				System.err.println(temp);
+				e.printStackTrace();
+				System.exit(-1);
 			}
 			
-			if (temp != null){
-				temp = temp.replace(',','.');  // L'application Android utilise (à tort) des virgules en tant que séparateur décimal
-				fig=temp.split(";");		   // Les 6 valeurs reçues sur une ligne sont séparées par un point-virgule
-				
-				for(int i=0;i<6;i++){
-					val[i]=Float.valueOf(fig[i]);
-				}
-				
-				setAcc (Arrays.copyOfRange(val, 0, 3));
-				setOri (Arrays.copyOfRange(val, 3, 6));	
-				
-				proc.update(acc,ori);  // C'est ici que le traitement est lancé, lorsque les valeurs sont reçues		
-			}
+			
+		
 	}
 
 	public Float[] getOri() {
@@ -97,6 +125,5 @@ public class Stream {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 }

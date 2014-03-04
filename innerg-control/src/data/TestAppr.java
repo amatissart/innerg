@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 
 /**
  * J'ai cree cette classe pou tester l'apprentissage. sachant que je ne peut
- * pas connecter mon telephone a mon ordi j'enregistre des données via mon iphone
+ * pas connecter mon telephone a mon ordi j'enregistre des donnï¿½es via mon iphone
  * je me les envoie et je fait comme si je les recevaient en direct (method simuconnect)
  * @author Nicolas
  *

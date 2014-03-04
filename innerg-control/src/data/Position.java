@@ -1,7 +1,7 @@
 package data;
 
 /**
- * Cette classe contient des informations sur une position particulière
+ * Cette classe contient des informations sur une position particuliÃ¨re
  * @author Nicolas
  *
  */

@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -15,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import data.Main;
+import data.Move;
 import data.ProcessingInterface;
 import data.Stream;
 import data.StreamThread;
@@ -27,6 +29,7 @@ public class Window extends JFrame implements ActionListener, ProcessingInterfac
 	
 	private Stream stream;
 	private StreamThread st;
+	private ProcessingInterface proc;
 	
 	private JPanel southPanel;
 	private JPanel zone;
@@ -35,16 +38,12 @@ public class Window extends JFrame implements ActionListener, ProcessingInterfac
 	private JButton startButton;
 	private JButton stopButton;
 	private JPanel buttons = new JPanel();
-	private GpioControl gpio;
+	
 	JLabel oriText;
 	JLabel accText;
 	
-	
-	public Window(){
+	public Window(ProcessingInterface proc){
 		super("InnerG - bluetooth communication test") ; // Window title
-		
-		if(Main.Switch)
-			gpio = new GpioControl();
 		
 		oriText = new JLabel(" No data ...");
 		accText = new JLabel(" No data ...");
@@ -87,6 +86,9 @@ public class Window extends JFrame implements ActionListener, ProcessingInterfac
 		
 		this.add(zone,BorderLayout.CENTER);
 		this.add(southPanel,BorderLayout.SOUTH);
+		
+		this.proc = proc;
+		proc.setWindow(this);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ; 
 	    pack() ;            
@@ -140,11 +142,14 @@ public class Window extends JFrame implements ActionListener, ProcessingInterfac
 
 	public void update(Float[] acc ,Float[] ori){
 		
-		graph.repaint();
+		proc.update(acc, ori);
+		
+	//	graph.repaint();
+		
 		setText("Acceleration  x: "+ acc[0]+" y: "+acc[1]+" z: "+acc[2],
 				   "Orientation   x: "+ ori[0]+" y: "+ori[1]+" z: "+ori[2]	);
 		
-		if (Main.Switch) {
+	/*	if (Main.Switch) {
 			if (ori[1] > 15) {
 				gpio.turnOn(1);
 				gpio.turnOff(2);
@@ -152,8 +157,18 @@ public class Window extends JFrame implements ActionListener, ProcessingInterfac
 				gpio.turnOn(2);
 				gpio.turnOff(1);
 			}
-		}
+		} */
 		
+	}
+
+	public void drawMove(Move move) {
+		graph.drawMove(move);
+	}
+
+	public void setWindow(Window w) {}
+
+	public void setMovesBase(ArrayList<Move> movesBase) {
+		graph.setLearntMove(movesBase.get(0));
 	}
 
 }

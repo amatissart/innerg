@@ -1,8 +1,8 @@
 package data;
 
 /**
- * Cette classe est la structure d'un paquet de données (accélération+orienation)
- * Une méthode permet aussi de calculer la distance entre deux paquets, selon un ou plusieurs parametres
+ * Cette classe est la structure d'un paquet de donnÃ©es (accÃ©lÃ©ration+orienation)
+ * Une mÃ©thode permet aussi de calculer la distance entre deux paquets, selon un ou plusieurs parametres
  **/
 
 public class Data {
@@ -88,7 +88,7 @@ public class Data {
 	}
 	
 	//Calcule la distance entre deux datas suivant un nombre defini de parametres
-	//params =[1,2,3,5] signifie qu'on étudiera aX,aY,aZ,oY
+	//params =[1,2,3,5] signifie qu'on ï¿½tudiera aX,aY,aZ,oY
 	
 	public float calcDist(Data studiedData,int[] params)
 	{
@@ -100,7 +100,6 @@ public class Data {
 		
 		for(int i =0; i<nbParam;i++)
 		{
-
 			switch(params[i])
 			{
 			case 1:
@@ -133,7 +132,7 @@ public class Data {
 		
 	}
 	
-	//Si le tableau n'est pas passé en parametre on calcule avec toutes les composantes
+	//Si le tableau n'est pas passï¿½ en parametre on calcule avec toutes les composantes
 	public float calcDist(Data studiedData)
 	{
 		int[] tab = new int[6];
@@ -181,7 +180,7 @@ public class Data {
 		return amp;
 	}
 	
-	//Si rien en entrée on prend tout en compte
+	//Si rien en entrï¿½e on prend tout en compte
 	public float getAmp()
 	{
 		int[] tab = new int[6];

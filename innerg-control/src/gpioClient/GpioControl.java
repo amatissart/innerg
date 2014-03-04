@@ -8,7 +8,6 @@ public class GpioControl {
 	public final static int nbPlugs = 4;
 	
 	private int[] pins = {2,3,4,17};
-	private boolean[] states = {true,true,true,true};
 	private NativeGPIO gpio;
 	
 	
@@ -22,7 +21,7 @@ public class GpioControl {
 
 		for (int i=0;i<nbPlugs;i++){
 			gpio.setFunction(pins[i], GPIO.OUT);
-			gpio.digitalWrite(pins[i], states[i]);
+			gpio.digitalWrite(pins[i], true);
 		}
 	}
 	
@@ -38,8 +37,10 @@ public class GpioControl {
 	
 	public void toggle(int i){
 		if (i>0 && i<= nbPlugs){
-			states[i-1] = !states[i-1];
-			gpio.digitalWrite(pins[i-1],states[i-1]);
+			if (gpio.digitalRead(pins[i-1])){
+				gpio.digitalWrite(pins[i-1], false);
+			}else
+				gpio.digitalWrite(pins[i-1], true);
 		}
 	}
 	
@@ -50,8 +51,8 @@ public class GpioControl {
 		GpioControl gpio = new GpioControl();
 		
 		for (int i = 0; i <= 100; i++) {
+			Thread.sleep(1000);
 			gpio.toggle(3);
-			Thread.sleep(2000);
 		}
 	}
 
