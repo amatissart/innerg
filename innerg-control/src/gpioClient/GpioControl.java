@@ -12,7 +12,7 @@ public class GpioControl {
 	
 	
 	public GpioControl(){
-		String host = "192.168.3.2";
+		String host = "192.168.4.10";
 		PiClient client = new PiHttpClient(host, 8042);
 
 		client.setCredentials("webiopi", "raspberry");
@@ -21,7 +21,7 @@ public class GpioControl {
 
 		for (int i=0;i<nbPlugs;i++){
 			gpio.setFunction(pins[i], GPIO.OUT);
-			gpio.digitalWrite(pins[i], true);
+		//	gpio.digitalWrite(pins[i], true);
 		}
 	}
 	

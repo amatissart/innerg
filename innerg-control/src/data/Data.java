@@ -176,7 +176,7 @@ public class Data {
 			}
 			
 		}
-		System.out.println(" : amp = "+amp);
+	//	System.out.println(" : amp = "+amp);
 		return amp;
 	}
 	

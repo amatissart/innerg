@@ -98,7 +98,7 @@ public class Processing implements ProcessingInterface {
 						{
 							if(Main.GuiTest) window.drawMove(move);
 							
-							//Si recorded move n'est pas null (id!=0) on était sur de la detection de trajectiore
+							//Si recorded move n'est pas null (id!=0) on ï¿½tait sur de la detection de trajectiore
 							
 							if(recordedMove.getMoveID()!=0)
 							{
@@ -106,11 +106,11 @@ public class Processing implements ProcessingInterface {
 								// L'appel suivant prend en paramÃ¨tre 2 mvmts : mvmt dÃ©clencheur et mvmt de transition 
 									
 								if(items!=null)
-									items.itemToItemMove(recordedMove,move);
+									items.itemToItemMove(move);
 								
 								recordedMove = new Move(); //On remet recorded move init
 							}
-							else //Sinon on tente de détecter un mvt d'activation
+							else //Sinon on tente de dï¿½tecter un mvt d'activation
 							{
 								//On compare ce mouvement 
 								int id = sc.getBestMove(move);
@@ -120,6 +120,7 @@ public class Processing implements ProcessingInterface {
 								
 								if(id == 1)
 								{
+									items.turnOffMove(move);
 									recordedMove = move; //Il y a bien copie ?
 									recordedMove.setMoveID(100); //On sait que recMove n'est pas null
 									
