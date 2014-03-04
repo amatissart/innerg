@@ -45,8 +45,6 @@ public class Window extends JFrame implements ActionListener, ProcessingInterfac
 	public Window(ProcessingInterface proc){
 		super("InnerG - bluetooth communication test") ; // Window title
 		
-		System.out.println("bonjour fenetre");
-		
 		oriText = new JLabel(" No data ...");
 		accText = new JLabel(" No data ...");
 		

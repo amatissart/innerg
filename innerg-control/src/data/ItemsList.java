@@ -13,9 +13,9 @@ public class ItemsList {
 	public ItemsList(GpioControl g){
 		gpio = g;
 		list = new ArrayList<Item>();
-		list.add(new Item(2,45,-15)); 
-		list.add(new Item(3,80,-15));
-		list.add(new Item(1,38,38));
+	//	list.add(new Item(2,45,-15)); 
+		list.add(new Item(3,15,-10));
+		list.add(new Item(4,70,-10));
 		//		list.add(new Item(3,200,0));  Prise 3 à 200°N
 	}
 
@@ -36,7 +36,9 @@ public class ItemsList {
 		double temp;
 		
 		for (Item i : list){
-			temp  = (Math.abs(last.getoX()-i.x) % 360)+ (Math.abs(last.getoY()-i.y) % 360);
+			temp  = (Math.abs(last.getoX()-i.x)) % 360;
+			temp = Math.min(temp, Math.abs(360-temp));
+			temp += (Math.abs(last.getoY()-i.y) % 360);
 			if(temp < SEUIL && temp < dest_dist){
 				dest_dist = temp;
 				dest = i.plug;
@@ -59,7 +61,10 @@ public class ItemsList {
 		double temp;
 		
 		for (Item i : list){
-			temp  = (Math.abs(last.getoX()-i.x) % 360)+ (Math.abs(last.getoY()-i.y) % 360);
+			temp  = (Math.abs(last.getoX()-i.x)) % 360;
+			temp = Math.min(temp, Math.abs(360-temp));
+			temp += (Math.abs(last.getoY()-i.y) % 360);
+			
 			if(temp < SEUIL && temp < dist){
 				dist = temp;
 				orig = i.plug;
