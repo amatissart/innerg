@@ -11,7 +11,7 @@ import gui.Window;
 public class Processing implements ProcessingInterface {
 	
 	private Move move;
-	private Move nextMove;
+	private Move recordedMove;
 	private boolean isOn; //Détermine si un processus (appretissage, detection est en cour
 	private boolean block; //Bloque l'execution de update
 	private int offCount; //Compte le nombre d'itération sans mouvement (a un delta pres)
@@ -31,6 +31,7 @@ public class Processing implements ProcessingInterface {
 	public Processing() {
 		super();
 		this.move = new Move();
+		this.recordedMove = new Move();
 		this.isOn = false;
 		this.block = false;
 		this.offCount = 0;
@@ -97,15 +98,35 @@ public class Processing implements ProcessingInterface {
 						{
 							if(Main.GuiTest) window.drawMove(move);
 							
-							//On compare ce mouvement 
-							int id = sc.getBestMove(move);
-							System.out.println("Le mouvement est le numero "+id);
+							//Si recorded move n'est pas null (id!=0) on �tait sur de la detection de trajectiore
 							
-							// Commande des objets, selon le mouvement effectué
-							// L'appel suivant prend en paramètre 2 mvmts : mvmt déclencheur et mvmt de transition 
+							if(recordedMove.getMoveID()!=0)
+							{
+								// Commande des objets, selon le mouvement effectué
+								// L'appel suivant prend en paramètre 2 mvmts : mvmt déclencheur et mvmt de transition 
+									
+								if(items!=null)
+									items.itemToItemMove(recordedMove,move);
 								
-							if(items!=null)
-								items.itemToItemMove(null,move);
+								recordedMove = new Move(); //On remet recorded move init
+							}
+							else //Sinon on tente de d�tecter un mvt d'activation
+							{
+								//On compare ce mouvement 
+								int id = sc.getBestMove(move);
+								System.out.println("Le mouvement est le numero "+id);
+								
+								//Si id est le (ou les mouveemnt d'activation on enregistre le mvt et on annalys ele mvt vers l'obet
+								
+								if(id == 1)
+								{
+									recordedMove = move; //Il y a bien copie ?
+									recordedMove.setMoveID(100); //On sait que recMove n'est pas null
+									
+								}
+							}
+							
+							
 							
 							
 							//On reinitialise move;
